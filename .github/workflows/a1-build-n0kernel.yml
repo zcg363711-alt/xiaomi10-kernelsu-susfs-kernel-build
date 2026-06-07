@@ -62,6 +62,18 @@ jobs:
           patch -p1 < new_defconfig.patch
           patch -p1 < non-kprobes.patch
 
+
+      - name: 4.5 添加Halium支持
+        run: |
+          cd $GITHUB_WORKSPACE/kernel_workspace/android_kernel
+          echo "" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "# Halium/Droidian support" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "CONFIG_SYSVIPC=y" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "CONFIG_DEVTMPFS=y" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "CONFIG_FHANDLE=y" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "CONFIG_PID_NS=y" >> arch/arm64/configs/vendor/umi_defconfig
+          echo "CONFIG_USER_NS=y" >> arch/arm64/configs/vendor/umi_defconfig
+
       - name: 5.修补susfs
         run: |
           if [ ${{ inputs.susfs }} = 'SUSFS' ]; then
